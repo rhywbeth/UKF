@@ -1,29 +1,18 @@
 clear()
 
-% Mean and covariance
-meann = [0,0];
-p = [32, 15; 15, 40];
+% dim_x : Number of state variables for the filter.
+% dim_z : Number of of measurement inputs.
+% dt : Time between steps in seconds.
 
-% Compute linearized mean
-mean_fx = f_nonlinear_xy(meann(1),meann(2));
-
-% Generate random points
-s = mvnrnd(meann,p,10000);
-xs = s(:,1);
-ys = s(:,2);
-
-% Calculate difference in mean:
-fs = f_nonlinear_xy(xs, ys);
-fxs = fs(:,1);
-fys = fs(:,2);
-computed_mean_x = mean(fxs);
-computed_mean_y = mean(fys);
-n1 = computed_mean_x - mean_fx(1);
-n2 = computed_mean_y - mean_fx(2);
-sprintf('Difference in mean x=%d, y=%d',n1,n2)
+dim_x = 2;
+dim_z = 1;
+dt = 1;
 
 % Create sigma points
-sp = JulierSigmaPoints(2, 1);
+% JulierSigmaPoints(n, kappa)
+% sp = JulierSigmaPoints(dim_x, 1);
+% MerweScaledSigmaPoints(n, alpha, beta, kappa)
+sp = MerweScaledSigmaPoints(dim_x, 0.1, 2, -1);
 
 % Unscented Kalman Filter
 ukf = UnscentedKalmanFilter(2, 1, 1, sp);
