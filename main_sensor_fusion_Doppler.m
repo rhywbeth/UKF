@@ -21,7 +21,7 @@ clear()
 %    we do not need to compute the velocity in x and y as they are provided 
 %    by the state estimate.
 
-dt = 3;         % 12 seconds between readings
+dt = 3;         % seconds between readings
 range_std = 500;  % meters
 elevation_angle_std = degtorad(0.5);
 vel_std = 2;   % m/s
